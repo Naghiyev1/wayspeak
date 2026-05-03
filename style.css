@@ -6,3 +6,11 @@
   direction: rtl;
   text-align: right;
 }
+
+/* v1.5.2 speech diagnostics */
+#voiceStatus.warning {
+  color: #d97706;
+}
+body.dark #voiceStatus.warning {
+  color: #fbbf24;
+}
