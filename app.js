@@ -9,7 +9,7 @@ let theme=localStorage.getItem("wayspeakTheme")||"light";
 
 const sourceLang=$("sourceLang"),targetLang=$("targetLang"),inputText=$("inputText"),outputText=$("outputText");
 const romanizationBox=$("romanizationBox"),romanizationLabel=$("romanizationLabel"),romanizationText=$("romanizationText");
-const engineSelect=$("engineSelect"),engineStatus=$("engineStatus"),settingsPanel=$("settingsPanel");
+const engineSelect=$("engineSelect"),engineStatus=$("engineStatus"),voiceStatus=$("voiceStatus"),settingsPanel=$("settingsPanel");
 const libreEndpointInput=$("libreEndpointInput"),libreApiKeyInput=$("libreApiKeyInput");
 const phraseRegionSelect=$("phraseRegionSelect"),phraseCategorySelect=$("phraseCategorySelect"),phraseGrid=$("phraseGrid");
 const recentList=$("recentList"),savedList=$("savedList"),conversationList=$("conversationList"),largeModal=$("largeModal"),largeText=$("largeText"),themeToggle=$("themeToggle");
@@ -160,7 +160,7 @@ function renderPhrasebook(){
   phraseGrid.innerHTML=filtered.map(p=>`<article class="phrase-card" data-index="${PHRASES.indexOf(p)}"><span class="badge">${escapeHTML(p.category)}</span><strong>${escapeHTML(p.text)}</strong><span>${escapeHTML(p.translated)}</span><span>${escapeHTML(p.romanization)}</span><span>${escapeHTML(p.note)}</span></article>`).join("");
   phraseGrid.querySelectorAll(".phrase-card").forEach(card=>card.onclick=()=>loadPhrase(PHRASES[Number(card.dataset.index)]));
 }
-function loadPhrase(p){inputText.value=p.text;outputText.textContent=p.translated;sourceLang.value="en";targetLang.value=p.region==="japan"?"ja":p.region==="korea"?"ko":p.region==="arabic"?"ar":p.region==="persian"?"fa":"zh";updateRomanization();saveLang();saveRecent(inputText.value,outputText.textContent)}
+function loadPhrase(p){inputText.value=p.text;outputText.textContent=p.translated;sourceLang.value="en";targetLang.value=p.region==="japan"?"ja":p.region==="korea"?"ko":p.region==="arabic"?"ar":p.region==="persian"?"fa":"zh";updateRomanization();updateVoiceStatus();saveLang();saveRecent(inputText.value,outputText.textContent)}
 function renderStackItem(item,index){return`<article class="stack-item" data-index="${index}"><span class="badge">${escapeHTML(item.from)} → ${escapeHTML(item.to)}</span><strong>${escapeHTML(item.input)}</strong><span>${escapeHTML(item.output)}</span></article>`}
 function bindStack(container,items){container.querySelectorAll(".stack-item").forEach(card=>card.onclick=()=>{const i=items[Number(card.dataset.index)];inputText.value=i.input;outputText.textContent=i.output;sourceLang.value=i.from;targetLang.value=i.to;updateRomanization();})}
 function renderRecent(){recentList.innerHTML=recentTranslations.length?recentTranslations.map(renderStackItem).join(""):`<div class="phrase-card"><strong>No recent translations yet.</strong><span>Translate something and it will appear here.</span></div>`;bindStack(recentList,recentTranslations)}
@@ -168,7 +168,7 @@ function renderSaved(){savedList.innerHTML=savedPhrases.length?savedPhrases.map(
 function renderConversation(){conversationList.innerHTML=conversationCards.length?conversationCards.map(i=>`<article class="conversation-card"><div class="small">${escapeHTML(i.from)} → ${escapeHTML(i.to)}</div><div class="big">${escapeHTML(i.output)}</div></article>`).join(""):`<div class="phrase-card"><strong>No conversation cards yet.</strong><span>Add the current translation to show it quickly later.</span></div>`}
 function setTab(tab){tabButtons.forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));["phrasebook","recent","saved","conversation"].forEach(k=>$(k+"Tab").hidden=k!==tab)}
 function swapLanguages(){if(sourceLang.value==="auto"){sourceLang.value=targetLang.value;targetLang.value="en"}else{const a=sourceLang.value;sourceLang.value=targetLang.value;targetLang.value=a}const old=inputText.value;inputText.value=outputText.textContent==="Your translation will appear here."?"":outputText.textContent;outputText.textContent=old||"Your translation will appear here.";saveLang();updateRomanization()}
-function applyPreset(button){presetButtons.forEach(b=>b.classList.remove("active"));button.classList.add("active");sourceLang.value=button.dataset.source;targetLang.value=button.dataset.target;saveLang();updateRomanization()}
+function applyPreset(button){presetButtons.forEach(b=>b.classList.remove("active"));button.classList.add("active");sourceLang.value=button.dataset.source;targetLang.value=button.dataset.target;saveLang();updateRomanization();updateVoiceStatus()}
 function clearInput(){inputText.value="";outputText.textContent="Your translation will appear here.";updateRomanization()}
 async function copyText(text){if(text)await navigator.clipboard.writeText(text)}
 function showLarge(){const text=outputText.textContent.trim();if(!text||text==="Your translation will appear here.")return;largeText.textContent=romanizationText.textContent?`${text}\n\n${romanizationText.textContent}`:text;largeText.classList.toggle("rtl", targetLang.value==="ar"||targetLang.value==="fa");largeModal.hidden=false}
@@ -178,6 +178,90 @@ function applyTheme(next){theme=next==="dark"?"dark":"light";document.body.class
 function speakOutput(){const text=outputText.textContent.trim();if(!text||text==="Your translation will appear here.")return;if(!("speechSynthesis" in window)){alert("Speech is not supported in this browser.");return}const u=new SpeechSynthesisUtterance(text);u.lang=targetLang.value==="zh"?"zh-CN":targetLang.value==="ja"?"ja-JP":targetLang.value==="ko"?"ko-KR":targetLang.value==="ar"?"ar-SA":targetLang.value==="fa"?"fa-IR":targetLang.value;u.rate=.9;window.speechSynthesis.cancel();window.speechSynthesis.speak(u)}
 
 $("translateButton").onclick=translateText;$("swapButton").onclick=swapLanguages;$("clearButton").onclick=clearInput;$("copyInputButton").onclick=()=>copyText(inputText.value);$("copyOutputButton").onclick=()=>copyText(outputText.textContent);$("copyRomanizationButton").onclick=()=>copyText(romanizationText.textContent);$("savePhraseButton").onclick=saveCurrentPhrase;$("showLargeButton").onclick=showLarge;$("closeLargeButton").onclick=()=>largeModal.hidden=true;$("speakButton").onclick=speakOutput;
-themeToggle.onclick=()=>applyTheme(theme==="dark"?"light":"dark");sourceLang.onchange=()=>{saveLang();updateRomanization()};targetLang.onchange=()=>{saveLang();updateRomanization()};engineSelect.onchange=()=>localStorage.setItem("wayspeakEngine",engineSelect.value);$("settingsButton").onclick=()=>settingsPanel.hidden=!settingsPanel.hidden;$("saveSettingsButton").onclick=saveSettings;phraseRegionSelect.onchange=renderPhrasebook;phraseCategorySelect.onchange=renderPhrasebook;$("clearRecentButton").onclick=()=>{recentTranslations=[];localStorage.setItem("wayspeakRecent","[]");renderRecent()};$("clearSavedButton").onclick=()=>{savedPhrases=[];localStorage.setItem("wayspeakSaved","[]");renderSaved()};$("addConversationButton").onclick=addConversationCard;presetButtons.forEach(b=>b.onclick=()=>applyPreset(b));tabButtons.forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+themeToggle.onclick=()=>applyTheme(theme==="dark"?"light":"dark");sourceLang.onchange=()=>{saveLang();updateRomanization()};targetLang.onchange=()=>{saveLang();updateRomanization();updateVoiceStatus()};engineSelect.onchange=()=>localStorage.setItem("wayspeakEngine",engineSelect.value);$("settingsButton").onclick=()=>settingsPanel.hidden=!settingsPanel.hidden;$("saveSettingsButton").onclick=saveSettings;phraseRegionSelect.onchange=renderPhrasebook;phraseCategorySelect.onchange=renderPhrasebook;$("clearRecentButton").onclick=()=>{recentTranslations=[];localStorage.setItem("wayspeakRecent","[]");renderRecent()};$("clearSavedButton").onclick=()=>{savedPhrases=[];localStorage.setItem("wayspeakSaved","[]");renderSaved()};$("addConversationButton").onclick=addConversationCard;presetButtons.forEach(b=>b.onclick=()=>applyPreset(b));tabButtons.forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(console.warn));
-populateLanguages();checkEngineSupport();loadSettings();applyTheme(theme);renderPhrasebook();renderRecent();renderSaved();renderConversation();updateRomanization();
+populateLanguages();checkEngineSupport();loadSettings();applyTheme(theme);renderPhrasebook();renderRecent();renderSaved();renderConversation();updateRomanization();updateVoiceStatus();if("speechSynthesis" in window){window.speechSynthesis.onvoiceschanged=updateVoiceStatus;}
+
+function getSpeechLang(){
+  if(targetLang.value==="zh") return "zh-CN";
+  if(targetLang.value==="ja") return "ja-JP";
+  if(targetLang.value==="ko") return "ko-KR";
+  if(targetLang.value==="ar") return "ar-SA";
+  if(targetLang.value==="fa") return "fa-IR";
+  if(targetLang.value==="es") return "es-ES";
+  if(targetLang.value==="tr") return "tr-TR";
+  if(targetLang.value==="ru") return "ru-RU";
+  if(targetLang.value==="fr") return "fr-FR";
+  if(targetLang.value==="de") return "de-DE";
+  if(targetLang.value==="it") return "it-IT";
+  if(targetLang.value==="pt") return "pt-PT";
+  return targetLang.value || "en-US";
+}
+
+function getAvailableVoices(){
+  if(!("speechSynthesis" in window)) return [];
+  return window.speechSynthesis.getVoices() || [];
+}
+
+function findBestVoice(lang){
+  const voices=getAvailableVoices();
+  if(!voices.length) return null;
+
+  const normalized=String(lang||"").toLowerCase();
+  const base=normalized.split("-")[0];
+
+  return voices.find(v=>String(v.lang||"").toLowerCase()===normalized)
+    || voices.find(v=>String(v.lang||"").toLowerCase().startsWith(base))
+    || null;
+}
+
+function updateVoiceStatus(){
+  if(!("speechSynthesis" in window)){
+    voiceStatus.textContent="Speech is not supported in this browser.";
+    voiceStatus.classList.add("warning");
+    return;
+  }
+
+  const lang=getSpeechLang();
+  const voice=findBestVoice(lang);
+
+  if(voice){
+    voiceStatus.textContent=`Speech voice ready: ${voice.name} (${voice.lang})`;
+    voiceStatus.classList.remove("warning");
+  }else{
+    voiceStatus.textContent=`No installed voice found for ${lang}. Speak may be silent or use a fallback voice.`;
+    voiceStatus.classList.add("warning");
+  }
+}
+
+function speakOutput(){
+  const text=outputText.textContent.trim();
+  if(!text||text==="Your translation will appear here.") return;
+
+  if(!("speechSynthesis" in window)){
+    alert("Speech is not supported in this browser.");
+    return;
+  }
+
+  const lang=getSpeechLang();
+  const utterance=new SpeechSynthesisUtterance(text);
+  utterance.lang=lang;
+  utterance.rate=.9;
+
+  const voice=findBestVoice(lang);
+  if(voice){
+    utterance.voice=voice;
+  }else if(targetLang.value==="fa"){
+    alert("No Persian voice was found on this browser/device. The text is correct, but speech may not play until a Persian voice is installed or supported.");
+  }else if(targetLang.value==="ar"){
+    alert("No Arabic voice was found on this browser/device. The text is correct, but speech may not play until an Arabic voice is installed or supported.");
+  }
+
+  utterance.onerror=function(event){
+    console.warn("Speech synthesis error:", event);
+    alert("Speech playback failed on this device/browser. The translation still works, but this voice may not be installed.");
+  };
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
