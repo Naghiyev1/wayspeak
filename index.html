@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0f172a" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="./style-v1-2.css?v=1.2" />
+  <link rel="stylesheet" href="./style-v1-3.css?v=1.3" />
 </head>
 <body>
   <main class="app-shell">
@@ -42,7 +42,7 @@
       <button class="preset active" type="button" data-source="en" data-target="zh">English → Chinese</button>
       <button class="preset" type="button" data-source="es" data-target="zh">Spanish → Chinese</button>
       <button class="preset" type="button" data-source="zh" data-target="en">Chinese → English</button>
-      <button class="preset" type="button" data-source="zh" data-target="es">Chinese → Spanish</button>
+      <button class="preset" type="button" data-source="zh" data-target="es">Chinese → Spanish</button><button class="preset" type="button" data-source="en" data-target="ja">English → Japanese</button><button class="preset" type="button" data-source="ja" data-target="en">Japanese → English</button>
     </section>
 
     <section class="translator-card">
@@ -59,8 +59,8 @@
         </section>
         <section class="text-panel output-panel">
           <div class="panel-title"><strong>Translation</strong><button id="savePhraseButton" type="button">Save</button></div>
-          <div id="outputText" class="output-text">Your translation will appear here.</div><div id="pinyinBox" class="pinyin-box" hidden><span>Pinyin</span><strong id="pinyinText"></strong></div>
-          <div class="panel-actions"><button id="copyOutputButton" type="button">Copy</button><button id="copyPinyinButton" type="button">Copy Pinyin</button><button id="showLargeButton" type="button">Show large</button></div>
+          <div id="outputText" class="output-text">Your translation will appear here.</div><div id="pinyinBox" class="pinyin-box" hidden><span id="romanizationLabel">Romanization</span><strong id="pinyinText"></strong></div>
+          <div class="panel-actions"><button id="copyOutputButton" type="button">Copy</button><button id="copyPinyinButton" type="button">Copy romanization</button><button id="speakButton" type="button">Speak</button><button id="showLargeButton" type="button">Show large</button></div>
         </section>
       </div>
     </section>
@@ -74,7 +74,7 @@
 
     <section class="content-panel">
       <section id="phrasebookTab" class="tab-panel">
-        <div class="panel-header"><div><strong>China travel phrasebook</strong><span>Tap a phrase to load it into the translator.</span></div><select id="phraseCategorySelect"></select></div>
+        <div class="panel-header"><div><strong>Travel phrasebook</strong><span>Choose China or Japan, then tap a phrase to load it.</span></div><div class="phrase-controls"><select id="phraseRegionSelect"><option value="china">China</option><option value="japan">Japan</option></select><select id="phraseCategorySelect"></select></div></div>
         <div id="phraseGrid" class="phrase-grid"></div>
       </section>
       <section id="recentTab" class="tab-panel" hidden>
@@ -93,6 +93,6 @@
   </main>
 
   <div id="largeModal" class="large-modal" hidden><button id="closeLargeButton" type="button">×</button><div id="largeText" class="large-text"></div></div>
-  <script src="./app-v1-2.js?v=1.2"></script>
+  <script src="./app-v1-3.js?v=1.3"></script>
 </body>
 </html>
