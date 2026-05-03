@@ -1,16 +1,18 @@
-# WaySpeak v1.3.1
+# WaySpeak v1.4
 
-Repair build.
+## What changed
 
-## Fixes
+- Expanded China phrasebook
+- Expanded Japan phrasebook
+- Added Korea phrasebook
+- Added English ↔ Korean presets
+- Added Korean romanization
+- Speak button now uses `ko-KR` for Korean output
+- Pinyin only appears for Chinese output
+- Romaji only appears for Japanese output
+- Korean romanization only appears for Korean output
+- Updated cache to v1.4
 
-- Restores language dropdowns
-- Restores translation flow
-- Keeps MyMemory Free API
-- Keeps China phrasebook with Pinyin
-- Keeps Japan phrasebook with Romaji
-- Keeps Speak button via browser speechSynthesis
-- Pinyin/Romaji only appears for Chinese/Japanese output
-- Updated cache to v1.3.1
+## Notes
 
-Upload all files to your `wayspeak` repo root, commit, then hard refresh.
+Phrasebook romanization is pre-written. Live/API translation romanization is fallback/rough, especially for Chinese and Japanese. Korean fallback romanization uses Hangul syllable decomposition and is good enough for basic reading support, but not a perfect linguistic romanizer.
