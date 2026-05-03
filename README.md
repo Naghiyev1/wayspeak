@@ -1,16 +1,16 @@
-# WaySpeak v1.3
+# WaySpeak v1.3.1
 
-## What changed
+Repair build.
 
-- Pinyin now only appears for Chinese output.
-- Romaji now appears for Japanese output.
-- Added Japan travel phrasebook.
-- Phrasebook can switch between China and Japan.
-- Added browser audio pronunciation using speechSynthesis.
-- Copy romanization button works for Pinyin or Romaji.
+## Fixes
 
-## Notes
+- Restores language dropdowns
+- Restores translation flow
+- Keeps MyMemory Free API
+- Keeps China phrasebook with Pinyin
+- Keeps Japan phrasebook with Romaji
+- Keeps Speak button via browser speechSynthesis
+- Pinyin/Romaji only appears for Chinese/Japanese output
+- Updated cache to v1.3.1
 
-Audio uses the browser/device voices. It works best when a Chinese or Japanese voice is installed. It does not require audio files or paid APIs.
-
-Phrasebook romanization is pre-written. Live/API translations use simple fallback romanization maps and may be imperfect for arbitrary text.
+Upload all files to your `wayspeak` repo root, commit, then hard refresh.
