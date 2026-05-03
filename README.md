@@ -1,35 +1,22 @@
-# WaySpeak
+# WaySpeak v1.2
 
 A clean travel translator and offline phrasebook that does not depend on Google.
 
-## What it does
+## What changed in v1.2
 
-- Clean source → target translation interface
-- Source and target language selectors
-- Swap languages
-- Copy input/output
-- Show translation in large full-screen mode
-- Save useful phrases
-- Recent translations
-- Conversation cards
-- China travel phrasebook
-- Quick presets for English/Spanish ↔ Chinese
-- Engine options:
-  - Browser Translator API, when available
-  - LibreTranslate endpoint, if you provide one
-  - Phrasebook-only offline mode
-- Dark mode
-- PWA support
-- Runs on GitHub Pages
-- No backend required by default
-- No login
-- No paid services
+- Adds Pinyin under Chinese translations
+- Adds Copy Pinyin button
+- Adds Pinyin to the built-in China travel phrasebook
+- Large display mode now shows Chinese + Pinyin when available
+- Keeps MyMemory Free API as the no-server live fallback
+- Keeps Browser Translator API, LibreTranslate endpoint and offline phrasebook modes
 
-## Important translation note
+## Pinyin note
 
-Live translation requires browser translation support or a reachable LibreTranslate-compatible endpoint. Phrasebook mode works offline because the phrases are included in the app.
+Phrasebook phrases use proper pre-written Pinyin.
+
+For live/API translations, the app uses a built-in fallback Chinese-character map. It is useful for common travel phrases, but it can be imperfect for arbitrary Chinese text, especially names, uncommon words and polyphonic characters.
 
 ## Deploy
 
-Create a public GitHub repo called `wayspeak`, upload all files to the root, then enable GitHub Pages from the `main` branch `/root`.
-
+Upload all files to the root of your `wayspeak` repository and commit. Then hard refresh once.
