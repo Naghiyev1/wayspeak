@@ -1,15 +1,1 @@
-# WaySpeak v1.5.1
-
-## What changed
-
-This is a repair build for Arabic/Persian romanization.
-
-- Arabic/Persian phrasebook phrases still show curated romanization
-- User-generated live Arabic/Persian translations no longer show fake rough romanization
-- Speak button still works when the browser/device has Arabic or Persian voices
-- Persian phrasebook romanization typo fixed
-- Cache updated to v1.5.1
-
-## Why
-
-Arabic and Persian often omit short vowels in writing. A character-by-character fallback creates misleading output, so WaySpeak now only shows Arabic/Persian romanization when it has a curated phrasebook match.
+const CACHE_NAME="wayspeak-v1-5-1";const APP_SHELL=["./","./index.html","./style-v1-5-1.css","./app-v1-5-1.js","./icon.svg","./manifest.json"];self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(APP_SHELL)));self.skipWaiting()});self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ns=>Promise.all(ns.filter(n=>n!==CACHE_NAME).map(n=>caches.delete(n)))));self.clients.claim()});self.addEventListener("fetch",e=>{const u=new URL(e.request.url);if(u.origin!==self.location.origin)return;e.respondWith(fetch(e.request).then(r=>{const c=r.clone();caches.open(CACHE_NAME).then(cache=>cache.put(e.request,c));return r}).catch(()=>caches.match(e.request)))})
