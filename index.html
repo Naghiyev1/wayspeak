@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>WaySpeak</title>
   <meta name="description" content="A clean travel translator and offline phrasebook that does not depend on Google." />
   <meta name="theme-color" content="#0f172a" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="./style-v1-3.css?v=1.3" />
+  <link rel="stylesheet" href="./style-v1-3-1.css?v=1.3.1" />
 </head>
 <body>
   <main class="app-shell">
@@ -16,15 +17,23 @@
       <section>
         <p class="eyebrow">Travel translator · offline phrasebook</p>
         <h1>WaySpeak</h1>
-        <p class="subtitle">A clean translation interface for travel, with saved phrases, recent translations, China mode, and a phrasebook that works even when live translation does not.</p>
+        <p class="subtitle">A clean travel translator with China/Japan phrasebooks, Pinyin/Romaji, saved phrases, recent translations and large show mode.</p>
       </section>
       <button id="themeToggle" class="theme-toggle" type="button">Dark Mode</button>
     </header>
 
     <section class="engine-panel">
-      <div><strong>Translation engine</strong><span id="engineStatus">Checking browser support...</span></div>
+      <div>
+        <strong>Translation engine</strong>
+        <span id="engineStatus">Loading engines...</span>
+      </div>
       <div class="engine-controls">
-        <select id="engineSelect"><option value="mymemory">MyMemory Free API</option><option value="browser">Browser Translator API</option><option value="libre">LibreTranslate endpoint</option><option value="phrasebook">Phrasebook only</option></select>
+        <select id="engineSelect" aria-label="Translation engine">
+          <option value="mymemory">MyMemory Free API</option>
+          <option value="browser">Browser Translator API</option>
+          <option value="libre">LibreTranslate endpoint</option>
+          <option value="phrasebook">Phrasebook only</option>
+        </select>
         <button id="settingsButton" type="button">Settings</button>
       </div>
     </section>
@@ -35,32 +44,48 @@
         <label>API key, optional<input id="libreApiKeyInput" type="password" placeholder="Leave empty if not needed" /></label>
         <button id="saveSettingsButton" type="button">Save settings</button>
       </div>
-      <p class="settings-note">MyMemory works without your own server but has limits and variable quality. Browser translation depends on browser support. LibreTranslate requires your own reachable endpoint. Phrasebook mode works offline.</p>
+      <p class="settings-note">MyMemory works without your own server but has limits. LibreTranslate requires your own endpoint. Phrasebook mode works offline.</p>
     </section>
 
     <section class="quick-presets">
       <button class="preset active" type="button" data-source="en" data-target="zh">English → Chinese</button>
       <button class="preset" type="button" data-source="es" data-target="zh">Spanish → Chinese</button>
       <button class="preset" type="button" data-source="zh" data-target="en">Chinese → English</button>
-      <button class="preset" type="button" data-source="zh" data-target="es">Chinese → Spanish</button><button class="preset" type="button" data-source="en" data-target="ja">English → Japanese</button><button class="preset" type="button" data-source="ja" data-target="en">Japanese → English</button>
+      <button class="preset" type="button" data-source="zh" data-target="es">Chinese → Spanish</button>
+      <button class="preset" type="button" data-source="en" data-target="ja">English → Japanese</button>
+      <button class="preset" type="button" data-source="ja" data-target="en">Japanese → English</button>
     </section>
 
     <section class="translator-card">
       <div class="language-row">
-        <select id="sourceLang"></select>
-        <button id="swapButton" class="swap-button" type="button">⇄</button>
-        <select id="targetLang"></select>
+        <select id="sourceLang" aria-label="Source language"></select>
+        <button id="swapButton" class="swap-button" type="button" aria-label="Swap languages">⇄</button>
+        <select id="targetLang" aria-label="Target language"></select>
       </div>
+
       <div class="translation-grid">
         <section class="text-panel">
           <div class="panel-title"><strong>Say this</strong><button id="clearButton" type="button">Clear</button></div>
           <textarea id="inputText" placeholder="Type or paste a sentence..."></textarea>
-          <div class="panel-actions"><button id="translateButton" class="primary-button" type="button">Translate</button><button id="copyInputButton" type="button">Copy</button></div>
+          <div class="panel-actions">
+            <button id="translateButton" class="primary-button" type="button">Translate</button>
+            <button id="copyInputButton" type="button">Copy</button>
+          </div>
         </section>
+
         <section class="text-panel output-panel">
           <div class="panel-title"><strong>Translation</strong><button id="savePhraseButton" type="button">Save</button></div>
-          <div id="outputText" class="output-text">Your translation will appear here.</div><div id="pinyinBox" class="pinyin-box" hidden><span id="romanizationLabel">Romanization</span><strong id="pinyinText"></strong></div>
-          <div class="panel-actions"><button id="copyOutputButton" type="button">Copy</button><button id="copyPinyinButton" type="button">Copy romanization</button><button id="speakButton" type="button">Speak</button><button id="showLargeButton" type="button">Show large</button></div>
+          <div id="outputText" class="output-text">Your translation will appear here.</div>
+          <div id="romanizationBox" class="romanization-box" hidden>
+            <span id="romanizationLabel">Romanization</span>
+            <strong id="romanizationText"></strong>
+          </div>
+          <div class="panel-actions">
+            <button id="copyOutputButton" type="button">Copy</button>
+            <button id="copyRomanizationButton" type="button">Copy romanization</button>
+            <button id="speakButton" type="button">Speak</button>
+            <button id="showLargeButton" type="button">Show large</button>
+          </div>
         </section>
       </div>
     </section>
@@ -74,17 +99,26 @@
 
     <section class="content-panel">
       <section id="phrasebookTab" class="tab-panel">
-        <div class="panel-header"><div><strong>Travel phrasebook</strong><span>Choose China or Japan, then tap a phrase to load it.</span></div><div class="phrase-controls"><select id="phraseRegionSelect"><option value="china">China</option><option value="japan">Japan</option></select><select id="phraseCategorySelect"></select></div></div>
+        <div class="panel-header">
+          <div><strong>Travel phrasebook</strong><span>Choose China or Japan, then tap a phrase to load it.</span></div>
+          <div class="phrase-controls">
+            <select id="phraseRegionSelect"><option value="china">China</option><option value="japan">Japan</option></select>
+            <select id="phraseCategorySelect"></select>
+          </div>
+        </div>
         <div id="phraseGrid" class="phrase-grid"></div>
       </section>
+
       <section id="recentTab" class="tab-panel" hidden>
         <div class="panel-header"><div><strong>Recent translations</strong><span>Stored only in this browser.</span></div><button id="clearRecentButton" type="button">Clear recent</button></div>
         <div id="recentList" class="stack-list"></div>
       </section>
+
       <section id="savedTab" class="tab-panel" hidden>
         <div class="panel-header"><div><strong>Saved phrases</strong><span>Your personal travel phrases.</span></div><button id="clearSavedButton" type="button">Clear saved</button></div>
         <div id="savedList" class="stack-list"></div>
       </section>
+
       <section id="conversationTab" class="tab-panel" hidden>
         <div class="panel-header"><div><strong>Conversation cards</strong><span>Good for showing someone short messages.</span></div><button id="addConversationButton" type="button">Add current</button></div>
         <div id="conversationList" class="conversation-list"></div>
@@ -92,7 +126,11 @@
     </section>
   </main>
 
-  <div id="largeModal" class="large-modal" hidden><button id="closeLargeButton" type="button">×</button><div id="largeText" class="large-text"></div></div>
-  <script src="./app-v1-3.js?v=1.3"></script>
+  <div id="largeModal" class="large-modal" hidden>
+    <button id="closeLargeButton" type="button">×</button>
+    <div id="largeText" class="large-text"></div>
+  </div>
+
+  <script src="./app-v1-3-1.js?v=1.3.1"></script>
 </body>
 </html>
