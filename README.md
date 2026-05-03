@@ -1,24 +1,30 @@
-# WaySpeak v1.5.2
+# WaySpeak v1.6
 
-Stability and speech repair build.
+Phrasebook quality expansion.
 
 ## What changed
 
-- Full JavaScript validation pass
-- Language dropdown initialization checked
-- Translation flow checked
-- Persian speech handling improved
-- Arabic speech handling improved
-- App now checks installed browser/device voices
-- App shows a voice status message
-- Speak button uses the best available matching voice when possible
-- If Persian/Arabic voice is missing, the app tells you instead of failing silently
-- Arabic/Persian live translations still hide fake romanization
-- Arabic/Persian phrasebook still shows curated romanization
-- Cache updated to v1.5.2
+- Expanded phrasebook content across all regions:
+  - China
+  - Japan
+  - Korea
+  - Arabic
+  - Persian
+- Added more practical travel categories:
+  - Transport
+  - Connectivity
+  - Hotel issues
+  - Restaurant preferences
+  - Payment problems
+  - Lost passport / lost phone
+  - Pharmacy / fever / pain medicine
+- Kept existing UI stable
+- Kept voice detection from v1.5.2
+- Kept Arabic/Persian live romanization hidden unless phrasebook-curated
+- Cache updated to v1.6
 
-## Important speech note
+## Phrasebook principle
 
-Persian speech depends on whether the browser/device has a Persian voice installed. The code now requests `fa-IR`, but if your browser has no Persian voice, it may be silent or fail. This is a device/browser limitation, not a translation issue.
+The phrasebook is designed for situations where live translation may be unreliable: taxi, hotel, restaurant, transport, payment, emergency, medical and connectivity issues.
 
-On iPhone/macOS, available voices depend on installed system voices. On Chrome/Android/Windows, available voices vary by browser and OS language packs.
+Upload all files to your `wayspeak` repo root, commit, and hard refresh.
