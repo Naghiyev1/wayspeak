@@ -1,0 +1,1 @@
+{"name":"WaySpeak","short_name":"WaySpeak","description":"A clean travel translator and offline phrasebook that does not depend on Google.","start_url":"./","scope":"./","display":"standalone","background_color":"#f4f0e8","theme_color":"#0f172a","orientation":"portrait-primary","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
