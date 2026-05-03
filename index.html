@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#0f172a" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="./style-v1-4.css?v=1.4" />
+  <link rel="stylesheet" href="./style-v1-5.css?v=1.5" />
 </head>
 <body>
   <main class="app-shell">
@@ -17,7 +17,7 @@
       <section>
         <p class="eyebrow">Travel translator · offline phrasebook</p>
         <h1>WaySpeak</h1>
-        <p class="subtitle">A clean travel translator with China/Japan/Korea phrasebooks, Pinyin/Romaji/Korean romanization, saved phrases, recent translations and large show mode.</p>
+        <p class="subtitle">A clean travel translator with China/Japan/Korea/Arabic/Persian phrasebooks with romanization, saved phrases, recent translations and large show mode.</p>
       </section>
       <button id="themeToggle" class="theme-toggle" type="button">Dark Mode</button>
     </header>
@@ -53,7 +53,7 @@
       <button class="preset" type="button" data-source="zh" data-target="en">Chinese → English</button>
       <button class="preset" type="button" data-source="zh" data-target="es">Chinese → Spanish</button>
       <button class="preset" type="button" data-source="en" data-target="ja">English → Japanese</button>
-      <button class="preset" type="button" data-source="ja" data-target="en">Japanese → English</button><button class="preset" type="button" data-source="en" data-target="ko">English → Korean</button><button class="preset" type="button" data-source="ko" data-target="en">Korean → English</button>
+      <button class="preset" type="button" data-source="ja" data-target="en">Japanese → English</button><button class="preset" type="button" data-source="en" data-target="ko">English → Korean</button><button class="preset" type="button" data-source="ko" data-target="en">Korean → English</button><button class="preset" type="button" data-source="en" data-target="ar">English → Arabic</button><button class="preset" type="button" data-source="ar" data-target="en">Arabic → English</button><button class="preset" type="button" data-source="en" data-target="fa">English → Persian</button><button class="preset" type="button" data-source="fa" data-target="en">Persian → English</button>
     </section>
 
     <section class="translator-card">
@@ -102,7 +102,7 @@
         <div class="panel-header">
           <div><strong>Travel phrasebook</strong><span>Choose China or Japan, then tap a phrase to load it.</span></div>
           <div class="phrase-controls">
-            <select id="phraseRegionSelect"><option value="china">China</option><option value="japan">Japan</option><option value="korea">Korea</option></select>
+            <select id="phraseRegionSelect"><option value="china">China</option><option value="japan">Japan</option><option value="korea">Korea</option><option value="arabic">Arabic</option><option value="persian">Persian</option></select>
             <select id="phraseCategorySelect"></select>
           </div>
         </div>
@@ -131,6 +131,6 @@
     <div id="largeText" class="large-text"></div>
   </div>
 
-  <script src="./app-v1-4.js?v=1.4"></script>
+  <script src="./app-v1-5.js?v=1.5"></script>
 </body>
 </html>
