@@ -1,1 +1,24 @@
-const CACHE_NAME="wayspeak-v1-5-1";const APP_SHELL=["./","./index.html","./style-v1-5-1.css","./app-v1-5-1.js","./icon.svg","./manifest.json"];self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(APP_SHELL)));self.skipWaiting()});self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ns=>Promise.all(ns.filter(n=>n!==CACHE_NAME).map(n=>caches.delete(n)))));self.clients.claim()});self.addEventListener("fetch",e=>{const u=new URL(e.request.url);if(u.origin!==self.location.origin)return;e.respondWith(fetch(e.request).then(r=>{const c=r.clone();caches.open(CACHE_NAME).then(cache=>cache.put(e.request,c));return r}).catch(()=>caches.match(e.request)))})
+# WaySpeak v1.5.2
+
+Stability and speech repair build.
+
+## What changed
+
+- Full JavaScript validation pass
+- Language dropdown initialization checked
+- Translation flow checked
+- Persian speech handling improved
+- Arabic speech handling improved
+- App now checks installed browser/device voices
+- App shows a voice status message
+- Speak button uses the best available matching voice when possible
+- If Persian/Arabic voice is missing, the app tells you instead of failing silently
+- Arabic/Persian live translations still hide fake romanization
+- Arabic/Persian phrasebook still shows curated romanization
+- Cache updated to v1.5.2
+
+## Important speech note
+
+Persian speech depends on whether the browser/device has a Persian voice installed. The code now requests `fa-IR`, but if your browser has no Persian voice, it may be silent or fail. This is a device/browser limitation, not a translation issue.
+
+On iPhone/macOS, available voices depend on installed system voices. On Chrome/Android/Windows, available voices vary by browser and OS language packs.
