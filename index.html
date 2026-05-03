@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0f172a" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="./style-v1.css?v=1" />
+  <link rel="stylesheet" href="./style-v1-2.css?v=1.2" />
 </head>
 <body>
   <main class="app-shell">
@@ -24,7 +24,7 @@
     <section class="engine-panel">
       <div><strong>Translation engine</strong><span id="engineStatus">Checking browser support...</span></div>
       <div class="engine-controls">
-        <select id="engineSelect"><option value="browser">Browser Translator API</option><option value="libre">LibreTranslate endpoint</option><option value="phrasebook">Phrasebook only</option></select>
+        <select id="engineSelect"><option value="mymemory">MyMemory Free API</option><option value="browser">Browser Translator API</option><option value="libre">LibreTranslate endpoint</option><option value="phrasebook">Phrasebook only</option></select>
         <button id="settingsButton" type="button">Settings</button>
       </div>
     </section>
@@ -35,7 +35,7 @@
         <label>API key, optional<input id="libreApiKeyInput" type="password" placeholder="Leave empty if not needed" /></label>
         <button id="saveSettingsButton" type="button">Save settings</button>
       </div>
-      <p class="settings-note">Browser translation depends on browser support. LibreTranslate requires your own reachable endpoint. Phrasebook mode works offline.</p>
+      <p class="settings-note">MyMemory works without your own server but has limits and variable quality. Browser translation depends on browser support. LibreTranslate requires your own reachable endpoint. Phrasebook mode works offline.</p>
     </section>
 
     <section class="quick-presets">
@@ -59,8 +59,8 @@
         </section>
         <section class="text-panel output-panel">
           <div class="panel-title"><strong>Translation</strong><button id="savePhraseButton" type="button">Save</button></div>
-          <div id="outputText" class="output-text">Your translation will appear here.</div>
-          <div class="panel-actions"><button id="copyOutputButton" type="button">Copy</button><button id="showLargeButton" type="button">Show large</button></div>
+          <div id="outputText" class="output-text">Your translation will appear here.</div><div id="pinyinBox" class="pinyin-box" hidden><span>Pinyin</span><strong id="pinyinText"></strong></div>
+          <div class="panel-actions"><button id="copyOutputButton" type="button">Copy</button><button id="copyPinyinButton" type="button">Copy Pinyin</button><button id="showLargeButton" type="button">Show large</button></div>
         </section>
       </div>
     </section>
@@ -93,6 +93,6 @@
   </main>
 
   <div id="largeModal" class="large-modal" hidden><button id="closeLargeButton" type="button">×</button><div id="largeText" class="large-text"></div></div>
-  <script src="./app-v1.js?v=1"></script>
+  <script src="./app-v1-2.js?v=1.2"></script>
 </body>
 </html>
