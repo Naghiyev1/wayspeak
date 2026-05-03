@@ -1,22 +1,16 @@
-# WaySpeak v1.2
+# WaySpeak v1.3
 
-A clean travel translator and offline phrasebook that does not depend on Google.
+## What changed
 
-## What changed in v1.2
+- Pinyin now only appears for Chinese output.
+- Romaji now appears for Japanese output.
+- Added Japan travel phrasebook.
+- Phrasebook can switch between China and Japan.
+- Added browser audio pronunciation using speechSynthesis.
+- Copy romanization button works for Pinyin or Romaji.
 
-- Adds Pinyin under Chinese translations
-- Adds Copy Pinyin button
-- Adds Pinyin to the built-in China travel phrasebook
-- Large display mode now shows Chinese + Pinyin when available
-- Keeps MyMemory Free API as the no-server live fallback
-- Keeps Browser Translator API, LibreTranslate endpoint and offline phrasebook modes
+## Notes
 
-## Pinyin note
+Audio uses the browser/device voices. It works best when a Chinese or Japanese voice is installed. It does not require audio files or paid APIs.
 
-Phrasebook phrases use proper pre-written Pinyin.
-
-For live/API translations, the app uses a built-in fallback Chinese-character map. It is useful for common travel phrases, but it can be imperfect for arbitrary Chinese text, especially names, uncommon words and polyphonic characters.
-
-## Deploy
-
-Upload all files to the root of your `wayspeak` repository and commit. Then hard refresh once.
+Phrasebook romanization is pre-written. Live/API translations use simple fallback romanization maps and may be imperfect for arbitrary text.
