@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WaySpeak</title>
+  <meta name="description" content="A clean travel translator and offline phrasebook that does not depend on Google." />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="./style-v1.css?v=1" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <section>
+        <p class="eyebrow">Travel translator · offline phrasebook</p>
+        <h1>WaySpeak</h1>
+        <p class="subtitle">A clean translation interface for travel, with saved phrases, recent translations, China mode, and a phrasebook that works even when live translation does not.</p>
+      </section>
+      <button id="themeToggle" class="theme-toggle" type="button">Dark Mode</button>
+    </header>
+
+    <section class="engine-panel">
+      <div><strong>Translation engine</strong><span id="engineStatus">Checking browser support...</span></div>
+      <div class="engine-controls">
+        <select id="engineSelect"><option value="browser">Browser Translator API</option><option value="libre">LibreTranslate endpoint</option><option value="phrasebook">Phrasebook only</option></select>
+        <button id="settingsButton" type="button">Settings</button>
+      </div>
+    </section>
+
+    <section id="settingsPanel" class="settings-panel" hidden>
+      <div class="settings-grid">
+        <label>LibreTranslate endpoint<input id="libreEndpointInput" type="url" placeholder="https://your-server.example/translate" /></label>
+        <label>API key, optional<input id="libreApiKeyInput" type="password" placeholder="Leave empty if not needed" /></label>
+        <button id="saveSettingsButton" type="button">Save settings</button>
+      </div>
+      <p class="settings-note">Browser translation depends on browser support. LibreTranslate requires your own reachable endpoint. Phrasebook mode works offline.</p>
+    </section>
+
+    <section class="quick-presets">
+      <button class="preset active" type="button" data-source="en" data-target="zh">English → Chinese</button>
+      <button class="preset" type="button" data-source="es" data-target="zh">Spanish → Chinese</button>
+      <button class="preset" type="button" data-source="zh" data-target="en">Chinese → English</button>
+      <button class="preset" type="button" data-source="zh" data-target="es">Chinese → Spanish</button>
+    </section>
+
+    <section class="translator-card">
+      <div class="language-row">
+        <select id="sourceLang"></select>
+        <button id="swapButton" class="swap-button" type="button">⇄</button>
+        <select id="targetLang"></select>
+      </div>
+      <div class="translation-grid">
+        <section class="text-panel">
+          <div class="panel-title"><strong>Say this</strong><button id="clearButton" type="button">Clear</button></div>
+          <textarea id="inputText" placeholder="Type or paste a sentence..."></textarea>
+          <div class="panel-actions"><button id="translateButton" class="primary-button" type="button">Translate</button><button id="copyInputButton" type="button">Copy</button></div>
+        </section>
+        <section class="text-panel output-panel">
+          <div class="panel-title"><strong>Translation</strong><button id="savePhraseButton" type="button">Save</button></div>
+          <div id="outputText" class="output-text">Your translation will appear here.</div>
+          <div class="panel-actions"><button id="copyOutputButton" type="button">Copy</button><button id="showLargeButton" type="button">Show large</button></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="mode-tabs">
+      <button class="tab-button active" type="button" data-tab="phrasebook">Phrasebook</button>
+      <button class="tab-button" type="button" data-tab="recent">Recent</button>
+      <button class="tab-button" type="button" data-tab="saved">Saved</button>
+      <button class="tab-button" type="button" data-tab="conversation">Conversation</button>
+    </section>
+
+    <section class="content-panel">
+      <section id="phrasebookTab" class="tab-panel">
+        <div class="panel-header"><div><strong>China travel phrasebook</strong><span>Tap a phrase to load it into the translator.</span></div><select id="phraseCategorySelect"></select></div>
+        <div id="phraseGrid" class="phrase-grid"></div>
+      </section>
+      <section id="recentTab" class="tab-panel" hidden>
+        <div class="panel-header"><div><strong>Recent translations</strong><span>Stored only in this browser.</span></div><button id="clearRecentButton" type="button">Clear recent</button></div>
+        <div id="recentList" class="stack-list"></div>
+      </section>
+      <section id="savedTab" class="tab-panel" hidden>
+        <div class="panel-header"><div><strong>Saved phrases</strong><span>Your personal travel phrases.</span></div><button id="clearSavedButton" type="button">Clear saved</button></div>
+        <div id="savedList" class="stack-list"></div>
+      </section>
+      <section id="conversationTab" class="tab-panel" hidden>
+        <div class="panel-header"><div><strong>Conversation cards</strong><span>Good for showing someone short messages.</span></div><button id="addConversationButton" type="button">Add current</button></div>
+        <div id="conversationList" class="conversation-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <div id="largeModal" class="large-modal" hidden><button id="closeLargeButton" type="button">×</button><div id="largeText" class="large-text"></div></div>
+  <script src="./app-v1.js?v=1"></script>
+</body>
+</html>
